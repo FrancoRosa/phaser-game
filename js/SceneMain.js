@@ -68,6 +68,12 @@ class SceneMain extends Phaser.Scene {
       laser: this.sound.add("sndLaser")
     };
 
+    this.backgrounds = [];
+    for (var i = 0; i < 5; i++) { // create five scrolling backgrounds
+      var bg = new ScrollingBackground(this, "sprBg0", i * 10);
+      this.backgrounds.push(bg);
+    }
+
     this.player = new Player(
       this,
       this.game.config.width * 0.5,
@@ -75,6 +81,8 @@ class SceneMain extends Phaser.Scene {
       "sprPlayer"
     ); 
     
+    window.spVel = this.player.body.velocity
+
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -89,9 +97,6 @@ class SceneMain extends Phaser.Scene {
       delay: 1000,
       callback: function() {
         var enemy = null;
-        console.log(`Enemyes: ${this.enemies.getChildren().length}`)
-        console.log(`Lasers: ${this.enemyLasers.getChildren().length}`)
-        
         if (Phaser.Math.Between(0, 10) >= 3) {
           enemy = new GunShip(
             this,
