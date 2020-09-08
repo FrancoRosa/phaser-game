@@ -185,6 +185,18 @@ class SceneMain extends Phaser.Scene {
         this.player.setData("timerShootTick", this.player.getData("timerShootDelay") - 1);
         this.player.setData("isShooting", false);
       }
+
+    } else {
+      
+      this.time.addEvent({
+        delay:1000,
+        callback: function() {
+          this.scene.start("SceneGameOver");
+        },
+        callbackScope: this,
+        loop: false
+      });
+
     }
 
     for (var i = 0; i < this.enemies.getChildren().length; i++) {
